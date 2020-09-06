@@ -6,16 +6,18 @@ import ChatBubbleOutlineOutlinedIcon from '@material-ui/icons/ChatBubbleOutlineO
 import NearMeIcon from '@material-ui/icons/NearMe';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { useStateValue } from './StateProvider';
 
 
 function Post({profilePic, image, username, timestamp, message}) {
+    const [{user}, dispatch ] = useStateValue();
     return (
         <div className="post">
             <div className="post__top">
-                <Avatar src={profilePic}/>
+                <Avatar src={user.photoURL}/>
                 <div className="post__topInfo">
-                    <h3>{username}</h3>
-                    <p>timestamp...</p>
+                    <h3>{user.displayName}</h3>
+                    <p>{new Date(timestamp?.toDate()).toUTCString()}</p>
                 </div>
             </div>
             <div className="post__bottom">

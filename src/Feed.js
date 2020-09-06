@@ -1,16 +1,41 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import "./feed.css";
 import StoryReel from "./StoryReel";
 import MessageSender from "./MessageSender";
 import Post from "./Post";
+import de from "./firebase";
+import db from './firebase';
 
 
 function Feed() {
+    const [posts, setPosts] = useState([]);
+
+    useEffect(() => {
+        db.collection('posts').orderBy("timestamp","desc")
+        .onSnapshot(snapshot => (
+           setPosts(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()}))) 
+        ))
+    }, [])
+
     return (
         <div className="feed">
             <StoryReel />
             <MessageSender />
-            <Post 
+            
+            {posts.map((post) => (
+                <Post 
+                key={post.data.id}
+                profilePic={post.data.profilePic}
+                message={post.data.message}
+                timestamp={post.data.timestamp}
+                username={post.data.username}
+                image={post.data.image}
+                />
+            ))}
+            
+            
+            {/*
+                <Post 
             profilePic="https://scontent-cdg2-1.xx.fbcdn.net/v/t1.0-9/14141789_1165740856832870_5558366138713260472_n.jpg?_nc_cat=107&_nc_sid=85a577&_nc_ohc=p4o9JDGZVXEAX9oFt2n&_nc_ht=scontent-cdg2-1.xx&oh=ef1b9b22e1621c1cb55f43805ed85777&oe=5F7A8762"
             username="Mouhcine Bannani"
             message="Hello every one this is me Mouhcine!!.."
@@ -28,6 +53,9 @@ function Feed() {
             message="voici mon cheesecake au chocolat , sans cuisson , crémeux , facile à faire à la maison et très délicieux .Je suis sur que les amoureux du chocolat vont trouver leur bonheur avec ce cheesecake .Alors pour voir la recette et la préparation attendez ma video demain à 16:00 h sur ma chaine youtube BeBo's dish"
             image="https://scontent-cdg2-1.xx.fbcdn.net/v/t1.0-9/p720x720/118834437_710218966244087_3013668743954852487_o.jpg?_nc_cat=100&_nc_sid=07e735&_nc_ohc=UTCssj_wWw4AX8bsbee&_nc_ht=scontent-cdg2-1.xx&tp=6&oh=4e8fe9a21a0736daf86f6db5bd3516f5&oe=5F7BA42D"
             />
+            
+            */}
+            
         </div>
     )
 }

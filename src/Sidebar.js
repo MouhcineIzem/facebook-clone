@@ -8,13 +8,15 @@ import StorefrontIcon from '@material-ui/icons/Storefront';
 import ChatIcon from '@material-ui/icons/Chat';
 import PeopleIcon from '@material-ui/icons/People';
 import EmojiFlagsIcon from '@material-ui/icons/EmojiFlags';
+import { useStateValue } from './StateProvider';
 
 
 
 function Sidebar() {
+    const [{user}, dispatch] = useStateValue();
     return (
         <div className="sidebar">
-            <SidebarRow src="boy.png" title="Mouhcine Bannani" />
+            <SidebarRow src={user.photoURL} title={user.displayName} />
             <SidebarRow Icon={LocalHospitalIcon} title="Covide-19 Information Center"/>
             <SidebarRow Icon={EmojiFlagsIcon} title="Pages"/>
             <SidebarRow Icon={PeopleIcon} title="Friends"/>
